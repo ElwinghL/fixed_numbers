@@ -37,14 +37,13 @@ TEST(fixedNumberCreation, fromSmallerCopy) {
 
 TEST(fixedNumberCreation, constructCopy) {
     fp::Q_8_8 test(1.0);
-    fp::Q_8_8 testCopied(test);
+    fp::Q_8_8 testCopied=test;
     EXPECT_EQ(256, testCopied.value);
 }
 
 TEST(fixedNumberCreation, constructSmallerCopy) {
     fp::Q_8_8 test(1.0);
-
-    fp::Q_16_16 testCopied(test);
+    fp::Q_16_16 testCopied=test;
     EXPECT_EQ(65536, testCopied.value);
 }
 

@@ -16,5 +16,8 @@ int main(){
 
     std::cout<<"Value = " << test2.value << "\n";
 
+    std::cout<<(int)23.45<<std::endl;
+    std::cout<<(int)22.99<<std::endl;
+
     return 0;
 }
