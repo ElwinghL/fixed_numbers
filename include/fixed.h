@@ -154,8 +154,9 @@ namespace fp {
             auto tmpOther = other.value / (std::pow(2, other.fractionnal_part));
             auto tmpThis = value / (std::pow(2, fractionnal_part));
 
-            if ((tmpThis-tmpOther) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor(-(tmpOther - tmpThis) * std::pow(2, fractionnal_part)));
+            if ((tmpThis - tmpOther) / std::pow(2, integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor(
+                        -(tmpOther - tmpThis) * std::pow(2, fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while decrementing");
             }
@@ -166,7 +167,7 @@ namespace fp {
         fixed &operator-=(float other) {
             auto tmpThis = value / (std::pow(2, fractionnal_part));
 
-            if ((tmpThis- other) / std::pow(2, integer_part) < 1) {
+            if ((tmpThis - other) / std::pow(2, integer_part) < 1) {
                 this->value = static_cast<underlying_type>(floor(-(other - tmpThis) * std::pow(2, fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while decrementing");
@@ -178,7 +179,7 @@ namespace fp {
         fixed &operator-=(double other) {
             auto tmpThis = value / (std::pow(2, fractionnal_part));
 
-            if ((tmpThis-other) / std::pow(2, integer_part) < 1) {
+            if ((tmpThis - other) / std::pow(2, integer_part) < 1) {
                 this->value = static_cast<underlying_type>(floor(-(other - tmpThis) * std::pow(2, fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while decrementing");
@@ -192,8 +193,9 @@ namespace fp {
             auto tmpOther = other.value / (std::pow(2, OtherFrac));
             auto tmpThis = value / (std::pow(2, fractionnal_part));
 
-            if ((tmpThis-tmpOther) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor(-(tmpOther - tmpThis) * std::pow(2, fractionnal_part)));
+            if ((tmpThis - tmpOther) / std::pow(2, integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor(
+                        -(tmpOther - tmpThis) * std::pow(2, fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while decrementing");
             }

@@ -37,13 +37,13 @@ TEST(fixedNumberCreation, fromSmallerCopy) {
 
 TEST(fixedNumberCreation, constructCopy) {
     fp::Q_8_8 test(1.0);
-    fp::Q_8_8 testCopied=test;
+    fp::Q_8_8 testCopied = test;
     EXPECT_EQ(256, testCopied.value);
 }
 
 TEST(fixedNumberCreation, constructSmallerCopy) {
     fp::Q_8_8 test(1.0);
-    fp::Q_16_16 testCopied=test;
+    fp::Q_16_16 testCopied = test;
     EXPECT_EQ(65536, testCopied.value);
 }
 
@@ -60,11 +60,12 @@ TEST(fixedNumberOperations, plusFromDouble) {
 
     EXPECT_EQ(512, test.value);
 }
+
 TEST(fixedNumberOperations, plusFromOne) {
     fp::Q_8_8 test(1.0);
     fp::Q_8_8 test2(1.0);
 
-    test+=test2;
+    test += test2;
     EXPECT_EQ(512, test.value);
 }
 
@@ -72,7 +73,7 @@ TEST(fixedNumberOperations, plusFromSmallerOne) {
     fp::Q_16_16 test(1.0);
     fp::Q_8_8 test2(1.0);
 
-    test+=test2;
+    test += test2;
     EXPECT_EQ(131072, test.value);
 }
 
@@ -94,7 +95,7 @@ TEST(fixedNumberOperations, minusFromOne) {
     fp::Q_8_8 test(2.0);
     fp::Q_8_8 test2(1.0);
 
-    test-=test2;
+    test -= test2;
     EXPECT_EQ(256, test.value);
 }
 
@@ -125,7 +126,7 @@ TEST(fixedNumberOperations, timeForOne) {
     fp::Q_8_8 test(1.0);
     fp::Q_8_8 test2(2.0);
 
-    test*=test2;
+    test *= test2;
 
     EXPECT_EQ(512, test.value);
 }
@@ -134,7 +135,7 @@ TEST(fixedNumberOperations, timefromSmallerOne) {
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
 
-    test2*=test;
+    test2 *= test;
 
     EXPECT_EQ(131072, test2.value);
 }
@@ -169,11 +170,11 @@ TEST(fixedNumberOperations, divFromSmallerOne) {
     EXPECT_EQ(131072, test.value);
 }
 
-TEST(fixedNumberExceptions,constrOverflow) {
+TEST(fixedNumberExceptions, constrOverflow) {
     try {
-        fp::fixed<0,1> test(1.0);
+        fp::fixed<0, 1> test(1.0);
         EXPECT_TRUE(false);
-    } catch (std::overflow_error& e) {
+    } catch (std::overflow_error &e) {
         EXPECT_TRUE(true);
     }
 }
