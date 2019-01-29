@@ -11,7 +11,7 @@ int main() {
 
     std::cout << "Value = " << test.value << "\n";
 
-    fp::fixed<16, 16> test2(sqrt(test));
+    fp::fixed<8, 8> test2(sqrt(test));
 
     std::cout << fp::to_string(test2) << "\n";
 

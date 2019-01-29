@@ -260,7 +260,19 @@ TEST(fixedNumberComparaison, superiorEqual) {
 
  */
 
+TEST(fixedNumberFunctions, sqrt) {
+    fp::Q_8_8 test(4.0);
+    fp::Q_8_8 test2(sqrt(test));
 
+    EXPECT_EQ(512,test2.value);
+}
+
+TEST(fixedNumberFunctions, sqrt2) {
+    fp::Q_8_8 test(4.0);
+    fp::Q_16_16 test2(sqrt(test));
+
+    EXPECT_EQ(131072,test2.value);
+}
 
 /*
   _____                                _     _
@@ -284,6 +296,11 @@ TEST(fixedNumberExceptions, div0) {
     fp::Q_8_8 test(1.0);
     fp::Q_8_8 test2(0.0);
     EXPECT_THROW(({test/=test2;}), std::overflow_error);
+}
+
+TEST(fixedNumberExceptions, sqrt) {
+    fp::Q_8_8 test(-4.0);
+    EXPECT_THROW(({fp::fixed<16, 16> test2(sqrt(test));}), std::overflow_error);
 }
 
 int main(int argc, char **argv) {
