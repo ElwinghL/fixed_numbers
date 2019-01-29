@@ -92,7 +92,7 @@ namespace fp {
         }
 
         explicit operator double() const {
-            return static_cast<float>(value / (std::pow(2, fractionnal_part)));
+            return static_cast<double>(value / (std::pow(2, fractionnal_part)));
         }
 
         /**
@@ -344,19 +344,44 @@ namespace fp {
      */
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
-    bool operator==(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
+    bool operator==(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
+    	auto tmpLhs = lhs.value / (std::pow(2, F1));
+    	auto tmpRhs = rhs.value / (std::pow(2, F2));
+    	
+    	return tmpLhs == tmpRhs;
+    }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
-    bool operator<(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
+    bool operator<(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
+    	auto tmpLhs = lhs.value / (std::pow(2, F1));
+    	auto tmpRhs = rhs.value / (std::pow(2, F2));
+    	
+    	return tmpLhs < tmpRhs;
+    }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
-    bool operator>(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
+    bool operator>(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
+    	auto tmpLhs = lhs.value / (std::pow(2, F1));
+    	auto tmpRhs = rhs.value / (std::pow(2, F2));
+    	
+    	return tmpLhs > tmpRhs;
+    }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
-    bool operator<=(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
+    bool operator<=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
+    	auto tmpLhs = lhs.value / (std::pow(2, F1));
+    	auto tmpRhs = rhs.value / (std::pow(2, F2));
+    	
+    	return tmpLhs <= tmpRhs;
+    }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
-    bool operator>=(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
+    bool operator>=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
+    	auto tmpLhs = lhs.value / (std::pow(2, F1));
+    	auto tmpRhs = rhs.value / (std::pow(2, F2));
+    	
+    	return tmpLhs >= tmpRhs;
+    }
 
     /**
      * types
