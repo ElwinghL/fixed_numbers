@@ -19,6 +19,9 @@ namespace fp {
     template<std::size_t Int, std::size_t Frac>
     class fixed {
     public:
+    	
+    	struct fixed_type 
+    
         using underlying_type = long long;
 
         underlying_type value;
@@ -327,7 +330,9 @@ namespace fp {
 /*
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
-    implementationDefined operator+(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
+    implementationDefined operator+(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
+    
+    }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     implementationDefined operator-(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
