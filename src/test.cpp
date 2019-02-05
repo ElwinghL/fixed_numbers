@@ -213,19 +213,50 @@ TEST(fixedNumberOperations, divFromSmallerOne) {
 TEST(fixedNumberComparaison, equal) {
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(1.0);
+    fp::Q_8_8 test3(1.0001);
 
     EXPECT_TRUE(test == test2);
+    EXPECT_TRUE(test == test3);
+}
+TEST(fixedNumberComparaison, negEqual) {
+    fp::Q_8_8 test(-1.0);
+    fp::Q_16_16 test2(-1.0);
+    fp::Q_8_8 test3(-1.000001);
+
+    EXPECT_TRUE(test == test2);
+    EXPECT_FALSE(test == test3);
 }
 TEST(fixedNumberComparaison, inEqual) {
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
+	fp::Q_8_8 test3(1.0001);
+    fp::Q_16_16 test4(1.0001);
 
     EXPECT_FALSE(test == test2);
     EXPECT_TRUE(test != test2);
+    EXPECT_TRUE(test3 != test4);
+}
+
+TEST(fixedNumberComparaison, negInEqual) {
+    fp::Q_8_8 test(-1.0);
+    fp::Q_16_16 test2(-2.0);
+	fp::Q_8_8 test3(-1.0001);
+    fp::Q_16_16 test4(-1.0001);
+
+    EXPECT_FALSE(test == test2);
+    EXPECT_TRUE(test != test2);
+    EXPECT_TRUE(test3 != test4);
 }
 TEST(fixedNumberComparaison, inferior) {
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
+
+    EXPECT_TRUE(test < test2);
+    EXPECT_FALSE(test < test);
+}
+TEST(fixedNumberComparaison, negInferior) {
+    fp::Q_8_8 test(-2.0);
+    fp::Q_16_16 test2(-1.0);
 
     EXPECT_TRUE(test < test2);
     EXPECT_FALSE(test < test);
@@ -237,6 +268,13 @@ TEST(fixedNumberComparaison, superior) {
     EXPECT_TRUE(test2 > test);
     EXPECT_FALSE(test > test);
 }
+TEST(fixedNumberComparaison, negSuperior) {
+    fp::Q_8_8 test(-2.0);
+    fp::Q_16_16 test2(-1.0);
+
+    EXPECT_TRUE(test2 > test);
+    EXPECT_FALSE(test > test);
+}
 TEST(fixedNumberComparaison, inferiorEqual) {
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
@@ -244,9 +282,23 @@ TEST(fixedNumberComparaison, inferiorEqual) {
     EXPECT_TRUE(test <= test2);
     EXPECT_TRUE(test <= test);
 }
+TEST(fixedNumberComparaison, negInferiorEqual) {
+    fp::Q_8_8 test(-2.0);
+    fp::Q_16_16 test2(-1.0);
+
+    EXPECT_TRUE(test <= test2);
+    EXPECT_TRUE(test <= test);
+}
 TEST(fixedNumberComparaison, superiorEqual) {
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
+
+    EXPECT_TRUE(test2 >= test);
+    EXPECT_TRUE(test >= test);
+}
+TEST(fixedNumberComparaison, negSuperiorEqual) {
+    fp::Q_8_8 test(-2.0);
+    fp::Q_16_16 test2(-1.0);
 
     EXPECT_TRUE(test2 >= test);
     EXPECT_TRUE(test >= test);

@@ -12,18 +12,60 @@
 #include <cmath>
 
 namespace fp {
-
+	/**
+	 * usual for fixed point constructor
+	 */
+	 template<int>
+	 struct underlying_type_def {
+	 };
+	 
+	 template<>
+	 struct underlying_type_def<8> {
+	 	typedef int8_t type;
+	 };
+	 
+	 template<>
+	 struct underlying_type_def<16> {
+	 	typedef int16_t type;
+	 };
+	 
+	 template<>
+	 struct underlying_type_def<32> {
+	 	typedef int32_t type;
+	 };
+	 
+	 template<>
+	 struct underlying_type_def<64> {
+	 	typedef int64_t type;
+	 };
+	 
+	 constexpr int define_type(int nb_bits) {
+	 	int val = log2(nb_bits);
+	 	if (val <= 8) {
+	 		val = 8;	
+	 	} else if (val > 8 && val <= 16) {
+	 		val = 16;
+	 	} else if (val > 16 && val <= 32) {
+	 		val = 32;
+	 	} else {
+	 		val = 64;
+	 	}
+	 	
+	 	return val;
+	 } 
     /**
      * fixed point type
      */
 
     template<std::size_t Int, std::size_t Frac>
     class fixed {
+    
+    
     public:
     	
-    	struct fixed_type 
+    	struct fixed_type;
     
-        using underlying_type = long long;
+        using underlying_type = typename underlying_type_def<define_type(Int + Frac)>::type;
 
         underlying_type value;
 
