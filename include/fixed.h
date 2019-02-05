@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <string>
+#include <sstream>
 #include <cmath>
 
 namespace fp {
@@ -95,7 +96,7 @@ namespace fp {
         }
 
         explicit operator double() const {
-            return static_cast<double>(value / (std::pow(2, fractionnal_part)));
+            return (value / (std::pow(2, fractionnal_part)));
         }
 
         /**
@@ -350,42 +351,50 @@ namespace fp {
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator==(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-    	auto tmpLhs = lhs.value / (std::pow(2, F1));
-    	auto tmpRhs = rhs.value / (std::pow(2, F2));
-    	
-    	return tmpLhs == tmpRhs;
+        auto tmpLhs = lhs.value / (std::pow(2, F1));
+        auto tmpRhs = rhs.value / (std::pow(2, F2));
+
+        return tmpLhs == tmpRhs;
+    }
+
+    template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
+    bool operator!=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
+        auto tmpLhs = lhs.value / (std::pow(2, F1));
+        auto tmpRhs = rhs.value / (std::pow(2, F2));
+
+        return tmpLhs != tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator<(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-    	auto tmpLhs = lhs.value / (std::pow(2, F1));
-    	auto tmpRhs = rhs.value / (std::pow(2, F2));
-    	
-    	return tmpLhs < tmpRhs;
+        auto tmpLhs = lhs.value / (std::pow(2, F1));
+        auto tmpRhs = rhs.value / (std::pow(2, F2));
+
+        return tmpLhs < tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator>(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-    	auto tmpLhs = lhs.value / (std::pow(2, F1));
-    	auto tmpRhs = rhs.value / (std::pow(2, F2));
-    	
-    	return tmpLhs > tmpRhs;
+        auto tmpLhs = lhs.value / (std::pow(2, F1));
+        auto tmpRhs = rhs.value / (std::pow(2, F2));
+
+        return tmpLhs > tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator<=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-    	auto tmpLhs = lhs.value / (std::pow(2, F1));
-    	auto tmpRhs = rhs.value / (std::pow(2, F2));
-    	
-    	return tmpLhs <= tmpRhs;
+        auto tmpLhs = lhs.value / (std::pow(2, F1));
+        auto tmpRhs = rhs.value / (std::pow(2, F2));
+
+        return tmpLhs <= tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator>=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-    	auto tmpLhs = lhs.value / (std::pow(2, F1));
-    	auto tmpRhs = rhs.value / (std::pow(2, F2));
-    	
-    	return tmpLhs >= tmpRhs;
+        auto tmpLhs = lhs.value / (std::pow(2, F1));
+        auto tmpRhs = rhs.value / (std::pow(2, F2));
+
+        return tmpLhs >= tmpRhs;
     }
 
     /**
@@ -421,14 +430,30 @@ namespace fp {
      */
 
     template<typename Fixed>
-    Fixed sqrt(Fixed f);
+    Fixed sqrt(Fixed f) {
+        if (f.value < 0) {
+            throw std::overflow_error("Negative numbers can't be sqrted");
+        }
+        auto tmp = f.value / (std::pow(2, f.fractionnal_part));
+        fp::fixed<Fixed::integer_part, Fixed::fractionnal_part> ret(std::pow(tmp, 0.5));
+        return ret;
+    }
 
 
     template<typename Fixed>
-    std::string to_string(Fixed f);
+    std::string to_string(Fixed f) {
+        std::string ret;
+        ret += "Fixed<" + std::to_string(f.integer_part) + "," + std::to_string(f.fractionnal_part) + "> Value = " +
+               std::to_string(f.value);
+        return ret;
+    }
 
     template<typename Fixed>
-    std::ostream &operator<<(std::ostream &, Fixed f);
+    std::ostream &operator<<(std::ostream &o, Fixed f) {
+        o << fp::to_string(f);
+
+        return o;
+    }
 
 }
 
