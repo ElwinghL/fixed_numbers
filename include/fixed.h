@@ -34,13 +34,13 @@ namespace fp {
         fixed() = default;
 
         constexpr explicit fixed(float x) : value(
-                (x / std::pow(2, Int) < 1 ? static_cast<underlying_type>(floor(x * std::pow(2, Frac)))
+                (x / std::exp2(Int) < 1 ? static_cast<underlying_type>(floor(x * std::exp2(Frac)))
                                           : throw std::overflow_error("Overflow in the fixed number creation"))) {
 
         }
 
         constexpr explicit fixed(double x) : value(
-                (x / std::pow(2, Int) < 1 ? static_cast<underlying_type>(floor(x * std::pow(2, Frac)))
+                (x / std::exp2(Int) < 1 ? static_cast<underlying_type>(floor(x * std::exp2(Frac)))
                                           : throw std::overflow_error("Overflow in the fixed number creation"))) {
 
         }
@@ -55,9 +55,9 @@ namespace fp {
 
         template<std::size_t OtherInt, std::size_t OtherFrac>
         fixed(const fixed<OtherInt, OtherFrac> &other) {
-            auto tmp = other.value / (std::pow(2, OtherFrac));
-            if (tmp / std::pow(2, integer_part) < 1) {
-                value = static_cast<underlying_type>(floor(tmp * std::pow(2, fractionnal_part)));
+            auto tmp = other.value / (std::exp2(OtherFrac));
+            if (tmp / std::exp2(integer_part) < 1) {
+                value = static_cast<underlying_type>(floor(tmp * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while copy of a fixed number into a smaller one");
             }
@@ -74,9 +74,9 @@ namespace fp {
 
         template<std::size_t OtherInt, std::size_t OtherFrac>
         fixed &operator=(const fixed<OtherInt, OtherFrac> &other) {
-            auto tmp = other.value / (std::pow(2, OtherFrac));
-            if (tmp / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor(tmp * std::pow(2, fractionnal_part)));
+            auto tmp = other.value / (std::exp2(OtherFrac));
+            if (tmp / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor(tmp * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while copy assigment of a fixed number into a smaller one");
             }
@@ -89,11 +89,11 @@ namespace fp {
          */
 
         explicit operator float() const {
-            return static_cast<float>(value / (std::pow(2, fractionnal_part)));
+            return static_cast<float>(value / (std::exp2(fractionnal_part)));
         }
 
         explicit operator double() const {
-            return (value / (std::pow(2, fractionnal_part)));
+            return (value / (std::exp2(fractionnal_part)));
         }
 
         /**
@@ -101,11 +101,11 @@ namespace fp {
          */
 
         fixed &operator+=(const fixed &other) {
-            auto tmpOther = other.value / (std::pow(2, other.fractionnal_part));
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpOther = other.value / (std::exp2(other.fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpOther + tmpThis) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((tmpOther + tmpThis) * std::pow(2, fractionnal_part)));
+            if ((tmpOther + tmpThis) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((tmpOther + tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while incrementing");
             }
@@ -114,10 +114,10 @@ namespace fp {
         }
 
         fixed &operator+=(float other) {
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((other + tmpThis) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((other + tmpThis) * std::pow(2, fractionnal_part)));
+            if ((other + tmpThis) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((other + tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while incrementing");
             }
@@ -126,10 +126,10 @@ namespace fp {
         }
 
         fixed &operator+=(double other) {
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((other + tmpThis) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((other + tmpThis) * std::pow(2, fractionnal_part)));
+            if ((other + tmpThis) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((other + tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while incrementing");
             }
@@ -139,11 +139,11 @@ namespace fp {
 
         template<std::size_t OtherInt, std::size_t OtherFrac>
         fixed &operator+=(const fixed<OtherInt, OtherFrac> &other) {
-            auto tmpOther = other.value / (std::pow(2, OtherFrac));
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpOther = other.value / (std::exp2(OtherFrac));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpOther + tmpThis) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((tmpOther + tmpThis) * std::pow(2, fractionnal_part)));
+            if ((tmpOther + tmpThis) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((tmpOther + tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while incrementing");
             }
@@ -152,12 +152,12 @@ namespace fp {
         }
 
         fixed &operator-=(const fixed &other) {
-            auto tmpOther = other.value / (std::pow(2, other.fractionnal_part));
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpOther = other.value / (std::exp2(other.fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpThis - tmpOther) / std::pow(2, integer_part) < 1) {
+            if ((tmpThis - tmpOther) / std::exp2(integer_part) < 1) {
                 this->value = static_cast<underlying_type>(floor(
-                        -(tmpOther - tmpThis) * std::pow(2, fractionnal_part)));
+                        -(tmpOther - tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while decrementing");
             }
@@ -166,10 +166,10 @@ namespace fp {
         }
 
         fixed &operator-=(float other) {
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpThis - other) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor(-(other - tmpThis) * std::pow(2, fractionnal_part)));
+            if ((tmpThis - other) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor(-(other - tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while decrementing");
             }
@@ -178,10 +178,10 @@ namespace fp {
         }
 
         fixed &operator-=(double other) {
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpThis - other) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor(-(other - tmpThis) * std::pow(2, fractionnal_part)));
+            if ((tmpThis - other) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor(-(other - tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while decrementing");
             }
@@ -191,12 +191,12 @@ namespace fp {
 
         template<std::size_t OtherInt, std::size_t OtherFrac>
         fixed &operator-=(const fixed<OtherInt, OtherFrac> &other) {
-            auto tmpOther = other.value / (std::pow(2, OtherFrac));
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpOther = other.value / (std::exp2(OtherFrac));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpThis - tmpOther) / std::pow(2, integer_part) < 1) {
+            if ((tmpThis - tmpOther) / std::exp2(integer_part) < 1) {
                 this->value = static_cast<underlying_type>(floor(
-                        -(tmpOther - tmpThis) * std::pow(2, fractionnal_part)));
+                        -(tmpOther - tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while decrementing");
             }
@@ -205,11 +205,11 @@ namespace fp {
         }
 
         fixed &operator*=(const fixed &other) {
-            auto tmpOther = other.value / (std::pow(2, other.fractionnal_part));
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpOther = other.value / (std::exp2(other.fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpOther * tmpThis) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((tmpOther * tmpThis) * std::pow(2, fractionnal_part)));
+            if ((tmpOther * tmpThis) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((tmpOther * tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while multiplying");
             }
@@ -218,10 +218,10 @@ namespace fp {
         }
 
         fixed &operator*=(float other) {
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((other * tmpThis) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((other * tmpThis) * std::pow(2, fractionnal_part)));
+            if ((other * tmpThis) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((other * tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while multiplying");
             }
@@ -230,10 +230,10 @@ namespace fp {
         }
 
         fixed &operator*=(double other) {
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((other * tmpThis) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((other * tmpThis) * std::pow(2, fractionnal_part)));
+            if ((other * tmpThis) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((other * tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while multiplying");
             }
@@ -243,11 +243,11 @@ namespace fp {
 
         template<std::size_t OtherInt, std::size_t OtherFrac>
         fixed &operator*=(const fixed<OtherInt, OtherFrac> &other) {
-            auto tmpOther = other.value / (std::pow(2, OtherFrac));
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpOther = other.value / (std::exp2(OtherFrac));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpOther * tmpThis) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((tmpOther * tmpThis) * std::pow(2, fractionnal_part)));
+            if ((tmpOther * tmpThis) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((tmpOther * tmpThis) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while multiplying");
             }
@@ -256,14 +256,14 @@ namespace fp {
         }
 
         fixed &operator/=(const fixed &other) {
-            auto tmpOther = other.value / (std::pow(2, other.fractionnal_part));
+            auto tmpOther = other.value / (std::exp2(other.fractionnal_part));
             if (tmpOther == 0) {
                 throw std::overflow_error("Division by 0");
             }
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpThis / tmpOther) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((tmpThis / tmpOther) * std::pow(2, fractionnal_part)));
+            if ((tmpThis / tmpOther) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((tmpThis / tmpOther) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while dividing");
             }
@@ -275,10 +275,10 @@ namespace fp {
             if (other == 0) {
                 throw std::overflow_error("Division by 0");
             }
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpThis / other) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((tmpThis / other) * std::pow(2, fractionnal_part)));
+            if ((tmpThis / other) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((tmpThis / other) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while dividing");
             }
@@ -290,10 +290,10 @@ namespace fp {
             if (other == 0) {
                 throw std::overflow_error("Division by 0");
             }
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpThis / other) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((tmpThis / other) * std::pow(2, fractionnal_part)));
+            if ((tmpThis / other) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((tmpThis / other) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while dividing");
             }
@@ -303,14 +303,14 @@ namespace fp {
 
         template<std::size_t OtherInt, std::size_t OtherFrac>
         fixed &operator/=(const fixed<OtherInt, OtherFrac> &other) {
-            auto tmpOther = other.value / (std::pow(2, OtherFrac));
+            auto tmpOther = other.value / (std::exp2(OtherFrac));
             if (tmpOther == 0) {
                 throw std::overflow_error("Division by 0");
             }
-            auto tmpThis = value / (std::pow(2, fractionnal_part));
+            auto tmpThis = value / (std::exp2(fractionnal_part));
 
-            if ((tmpThis / tmpOther) / std::pow(2, integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((tmpThis / tmpOther) * std::pow(2, fractionnal_part)));
+            if ((tmpThis / tmpOther) / std::exp2(integer_part) < 1) {
+                this->value = static_cast<underlying_type>(floor((tmpThis / tmpOther) * std::exp2(fractionnal_part)));
             } else {
                 throw std::overflow_error("Overflow while dividing");
             }
@@ -346,48 +346,48 @@ namespace fp {
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator==(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-        auto tmpLhs = lhs.value / (std::pow(2, F1));
-        auto tmpRhs = rhs.value / (std::pow(2, F2));
+        auto tmpLhs = lhs.value / (std::exp2(F1));
+        auto tmpRhs = rhs.value / (std::exp2(F2));
 
         return tmpLhs == tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator!=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-        auto tmpLhs = lhs.value / (std::pow(2, F1));
-        auto tmpRhs = rhs.value / (std::pow(2, F2));
+        auto tmpLhs = lhs.value / (std::exp2(F1));
+        auto tmpRhs = rhs.value / (std::exp2(F2));
 
         return tmpLhs != tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator<(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-        auto tmpLhs = lhs.value / (std::pow(2, F1));
-        auto tmpRhs = rhs.value / (std::pow(2, F2));
+        auto tmpLhs = lhs.value / (std::exp2(F1));
+        auto tmpRhs = rhs.value / (std::exp2(F2));
 
         return tmpLhs < tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator>(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-        auto tmpLhs = lhs.value / (std::pow(2, F1));
-        auto tmpRhs = rhs.value / (std::pow(2, F2));
+        auto tmpLhs = lhs.value / (std::exp2(F1));
+        auto tmpRhs = rhs.value / (std::exp2(F2));
 
         return tmpLhs > tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator<=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-        auto tmpLhs = lhs.value / (std::pow(2, F1));
-        auto tmpRhs = rhs.value / (std::pow(2, F2));
+        auto tmpLhs = lhs.value / (std::exp2(F1));
+        auto tmpRhs = rhs.value / (std::exp2(F2));
 
         return tmpLhs <= tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator>=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-        auto tmpLhs = lhs.value / (std::pow(2, F1));
-        auto tmpRhs = rhs.value / (std::pow(2, F2));
+        auto tmpLhs = lhs.value / (std::exp2(F1));
+        auto tmpRhs = rhs.value / (std::exp2(F2));
 
         return tmpLhs >= tmpRhs;
     }
@@ -429,7 +429,7 @@ namespace fp {
         if (f.value < 0) {
             throw std::overflow_error("Negative numbers can't be sqrted");
         }
-        auto tmp = f.value / (std::pow(2, f.fractionnal_part));
+        auto tmp = f.value / (std::exp2(f.fractionnal_part));
         fp::fixed<Fixed::integer_part, Fixed::fractionnal_part> ret(std::pow(tmp, 0.5));
         return ret;
     }
