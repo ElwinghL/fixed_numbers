@@ -40,9 +40,9 @@ namespace fp {
 	 };
 	 
 	 constexpr int define_type(int nb_bits) {
-	 	int val = log2(nb_bits);
+	 	int val = nb_bits;
 	 	if (val <= 8) {
-	 		val = 8;	
+	 		val = 8;
 	 	} else if (val > 8 && val <= 16) {
 	 		val = 16;
 	 	} else if (val > 16 && val <= 32) {
@@ -65,7 +65,7 @@ namespace fp {
     	
     	struct fixed_type;
     
-        using underlying_type = typename underlying_type_def<define_type(Int + Frac)>::type;
+        using underlying_type = typename underlying_type_def<define_type(static_cast<int>(Int + Frac))>::type;
 
         underlying_type value;
 
@@ -146,11 +146,9 @@ namespace fp {
          */
 
         fixed &operator+=(const fixed &other) {
-            auto tmpOther = other.value / (std::exp2(other.fractionnal_part));
-            auto tmpThis = value / (std::exp2(fractionnal_part));
-
-            if ((tmpOther + tmpThis) / std::exp2(integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((tmpOther + tmpThis) * std::exp2(fractionnal_part)));
+            auto tmp = (this->value + other.value)/std::exp2(this->fractionnal_part);
+            if ((tmp/std::exp2(this->integer_part))<1) {
+                this->value += other.value;
             } else {
                 throw std::overflow_error("Overflow while incrementing");
             }
@@ -159,10 +157,9 @@ namespace fp {
         }
 
         fixed &operator+=(float other) {
-            auto tmpThis = value / (std::exp2(fractionnal_part));
-
-            if ((other + tmpThis) / std::exp2(integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((other + tmpThis) * std::exp2(fractionnal_part)));
+            auto tmp = (this->value + other*std::exp2(this->fractionnal_part))/std::exp2(this->fractionnal_part);
+            if ((tmp/std::exp2(this->integer_part))<1) {
+                this->value += other*std::exp2(this->fractionnal_part);
             } else {
                 throw std::overflow_error("Overflow while incrementing");
             }
@@ -171,10 +168,9 @@ namespace fp {
         }
 
         fixed &operator+=(double other) {
-            auto tmpThis = value / (std::exp2(fractionnal_part));
-
-            if ((other + tmpThis) / std::exp2(integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((other + tmpThis) * std::exp2(fractionnal_part)));
+            auto tmp = (this->value + other*std::exp2(this->fractionnal_part))/std::exp2(this->fractionnal_part);
+            if ((tmp/std::exp2(this->integer_part))<1) {
+                this->value += other*std::exp2(this->fractionnal_part);
             } else {
                 throw std::overflow_error("Overflow while incrementing");
             }
@@ -184,11 +180,9 @@ namespace fp {
 
         template<std::size_t OtherInt, std::size_t OtherFrac>
         fixed &operator+=(const fixed<OtherInt, OtherFrac> &other) {
-            auto tmpOther = other.value / (std::exp2(OtherFrac));
-            auto tmpThis = value / (std::exp2(fractionnal_part));
-
-            if ((tmpOther + tmpThis) / std::exp2(integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor((tmpOther + tmpThis) * std::exp2(fractionnal_part)));
+            auto tmp = (this->value + other.value*std::exp2(this->fractionnal_part-OtherFrac))/std::exp2(this->fractionnal_part);
+            if ((tmp/std::exp2(this->integer_part))<1) {
+                this->value += other.value*std::exp2(this->fractionnal_part-OtherFrac);
             } else {
                 throw std::overflow_error("Overflow while incrementing");
             }
@@ -197,12 +191,9 @@ namespace fp {
         }
 
         fixed &operator-=(const fixed &other) {
-            auto tmpOther = other.value / (std::exp2(other.fractionnal_part));
-            auto tmpThis = value / (std::exp2(fractionnal_part));
-
-            if ((tmpThis - tmpOther) / std::exp2(integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor(
-                        -(tmpOther - tmpThis) * std::exp2(fractionnal_part)));
+            auto tmp = (this->value - other.value)/std::exp2(this->fractionnal_part);
+            if ((std::abs(tmp)/std::exp2(this->integer_part))<1) {
+                this->value -= other.value;
             } else {
                 throw std::overflow_error("Overflow while decrementing");
             }
@@ -211,10 +202,9 @@ namespace fp {
         }
 
         fixed &operator-=(float other) {
-            auto tmpThis = value / (std::exp2(fractionnal_part));
-
-            if ((tmpThis - other) / std::exp2(integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor(-(other - tmpThis) * std::exp2(fractionnal_part)));
+            auto tmp = (this->value - other*exp2(this->fractionnal_part))/std::exp2(this->fractionnal_part);
+            if ((std::abs(tmp)/std::exp2(this->integer_part))<1) {
+                this->value -= other*exp2(this->fractionnal_part);
             } else {
                 throw std::overflow_error("Overflow while decrementing");
             }
@@ -223,10 +213,9 @@ namespace fp {
         }
 
         fixed &operator-=(double other) {
-            auto tmpThis = value / (std::exp2(fractionnal_part));
-
-            if ((tmpThis - other) / std::exp2(integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor(-(other - tmpThis) * std::exp2(fractionnal_part)));
+            auto tmp = (this->value - other*exp2(this->fractionnal_part))/std::exp2(this->fractionnal_part);
+            if ((std::abs(tmp)/std::exp2(this->integer_part))<1) {
+                this->value -= other*exp2(this->fractionnal_part);
             } else {
                 throw std::overflow_error("Overflow while decrementing");
             }
@@ -236,12 +225,9 @@ namespace fp {
 
         template<std::size_t OtherInt, std::size_t OtherFrac>
         fixed &operator-=(const fixed<OtherInt, OtherFrac> &other) {
-            auto tmpOther = other.value / (std::exp2(OtherFrac));
-            auto tmpThis = value / (std::exp2(fractionnal_part));
-
-            if ((tmpThis - tmpOther) / std::exp2(integer_part) < 1) {
-                this->value = static_cast<underlying_type>(floor(
-                        -(tmpOther - tmpThis) * std::exp2(fractionnal_part)));
+            auto tmp = (this->value - other.value*std::exp2(this->fractionnal_part-OtherFrac))/std::exp2(this->fractionnal_part);
+            if ((std::abs(tmp)/std::exp2(this->integer_part))<1) {
+                this->value -= other.value*std::exp2(this->fractionnal_part-OtherFrac);
             } else {
                 throw std::overflow_error("Overflow while decrementing");
             }
