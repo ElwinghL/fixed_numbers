@@ -10,6 +10,8 @@
 #include <string>
 #include <sstream>
 #include <cmath>
+#include <limits>
+#define M_PI           3.14159265358979323846
 
 namespace fp {
 	/**
@@ -356,22 +358,31 @@ namespace fp {
     /**
      * arithmetic operators
      */
-/*
+
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
-    implementationDefined operator+(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-    
+    fixed<std::max(I1,I2)+1,std::max(F1,F2)> operator+(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
+        fixed<std::max(I1,I2)+1,std::max(F1,F2)> ret;
+        ret.value = lhs.value*std::exp2(ret.fractionnal_part - F1) + rhs.value*std::exp2(ret.fractionnal_part - F2);
+
+        return ret;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
-    implementationDefined operator-(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
+    fixed<std::max(I1,I2)+1,std::max(F1,F2)> operator-(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
+        fixed<std::max(I1,I2)+1,std::max(F1,F2)> ret;
+        ret.value = lhs.value*std::exp2(ret.fractionnal_part - F1) - rhs.value*std::exp2(ret.fractionnal_part - F2);
+
+        return ret;
+    }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
-    implementationDefined operator*(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
+    fixed<I1+I2+1,F1+F2+1> operator*(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
+
+    }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
-    implementationDefined operator/(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
-*/
+    fixed<I1+I2+1,F1+F2+1> operator/(fixed<I1, F1> lhs, fixed<I2, F2> rhs);
 
     /**
      * comparison operators
@@ -439,17 +450,29 @@ namespace fp {
 
     template<typename Fixed>
     struct fixed_traits {
-        static constexpr Fixed lowest();
+        static constexpr Fixed lowest() {
+            return Fixed{-exp2(Fixed::integer_part - 1)};
+        }
 
-        static constexpr Fixed min();
+        static constexpr Fixed min() {
+            return Fixed{1/exp2(Fixed::fractionnal_part)};
+        }
 
-        static constexpr Fixed max();
+        static constexpr Fixed max() {
+            return Fixed{exp2(Fixed::integer_part - 1) - 1/exp2(Fixed::fractionnal_part) - 1};
+        }
 
-        static constexpr Fixed zero();
+        static constexpr Fixed zero() {
+            return Fixed{double(0)};
+        }
 
-        static constexpr Fixed one();
+        static constexpr Fixed one() {
+            return Fixed{double(1)};
+        }
 
-        static constexpr Fixed pi();
+        static constexpr Fixed pi() {
+            return Fixed{M_PI};
+        }
 
     };
 
