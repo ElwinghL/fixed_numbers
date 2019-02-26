@@ -229,8 +229,8 @@ TEST(fixedNumberComparaison, negEqual) {
 TEST(fixedNumberComparaison, inEqual) {
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
-	fp::Q_8_8 test3(1.0000001);
-    fp::Q_16_16 test4(1.0000001);
+	fp::Q_8_8 test3(1.00);
+    fp::Q_16_16 test4(1.01);
 
     EXPECT_FALSE(test == test2);
     EXPECT_TRUE(test != test2);
@@ -240,8 +240,8 @@ TEST(fixedNumberComparaison, inEqual) {
 TEST(fixedNumberComparaison, negInEqual) {
     fp::Q_8_8 test(-1.0);
     fp::Q_16_16 test2(-2.0);
-	fp::Q_8_8 test3(-1.0001);
-    fp::Q_16_16 test4(-1.0001);
+	fp::Q_8_8 test3(-1.01);
+    fp::Q_16_16 test4(-1.00);
 
     EXPECT_FALSE(test == test2);
     EXPECT_TRUE(test != test2);

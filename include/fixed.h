@@ -398,7 +398,7 @@ namespace fp {
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator!=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
         auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F2 - F1);
-        std::cout << lhs.value << ' ' << tmpRhs << '\n';
+        
         return lhs.value != tmpRhs;
     }
 
@@ -412,7 +412,7 @@ namespace fp {
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator>(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
 		auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F2 - F1);
-        
+        std::cout << lhs.value << ' ' << tmpRhs << '\n';
         return lhs.value > tmpRhs;
     }
 
