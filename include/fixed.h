@@ -391,41 +391,41 @@ namespace fp {
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator==(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-    	auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F2 - F1);
+    	auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F1 - F2);
         return lhs.value == tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator!=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-        auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F2 - F1);
+        auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F1 - F2);
         
         return lhs.value != tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator<(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-		auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F2 - F1);
+		auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F1 - F2);
         
         return lhs.value < tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator>(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-		auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F2 - F1);
-        std::cout << lhs.value << ' ' << tmpRhs << '\n';
+		auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F1 - F2);
+        
         return lhs.value > tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator<=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-        auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F2 - F1);
+        auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F1 - F2);
         
         return lhs.value <= tmpRhs;
     }
 
     template<std::size_t I1, std::size_t F1, std::size_t I2, std::size_t F2>
     bool operator>=(fixed<I1, F1> lhs, fixed<I2, F2> rhs) {
-        auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F2 - F1);
+        auto tmpRhs = (F1 < F2) ? rhs.value >> (F2 - F1) : rhs.value << (F1 - F2);
         
         return lhs.value >= tmpRhs;
     }
