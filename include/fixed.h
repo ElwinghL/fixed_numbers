@@ -463,11 +463,15 @@ namespace fp {
         }
 
         static constexpr Fixed zero() {
-            return Fixed{double(0)};
+            fp::fixed<Fixed::integer_part,Fixed::fractionnal_part> ret(0.);
+            //ret.value = 0;
+            return Fixed{ret};
         }
 
         static constexpr Fixed one() {
-            return Fixed{double(1)};
+            fp::fixed<Fixed::integer_part,Fixed::fractionnal_part> ret(1.);
+            ret.value = floor(std::exp2(Fixed::fractionnal_part));
+            return Fixed{ret};
         }
 
         static constexpr Fixed pi() {
