@@ -347,6 +347,44 @@ TEST(fixedNumberFunctions, sqrt2) {/* NOLINT */
     EXPECT_EQ(131072,test2.value);
 }
 
+TEST(fixedNumberFunctions, lowest) {/* NOLINT */
+    fp::fixed<8,8> test = fp::fixed_traits<fp::fixed<8,8>>::lowest();
+
+    EXPECT_EQ(-32768,test.value);
+}
+
+TEST(fixedNumberFunctions, min) {/* NOLINT */
+    fp::fixed<8,8> test = fp::fixed_traits<fp::fixed<8,8>>::min();
+
+    EXPECT_EQ(1/std::exp2(8),(double) test);
+}
+
+TEST(fixedNumberFunctions, max) {/* NOLINT */
+    fp::fixed<8,8> test = fp::fixed_traits<fp::fixed<8,8>>::max();
+
+    EXPECT_EQ(32511,test.value);
+}
+
+TEST(fixedNumberFunctions, zero) {/* NOLINT */
+    fp::fixed<8,8> test = fp::fixed_traits<fp::fixed<8,8>>::zero();
+
+    EXPECT_EQ(0,test.value);
+}
+
+TEST(fixedNumberFunctions, one) {/* NOLINT */
+    fp::fixed<8,8> test = fp::fixed_traits<fp::fixed<8,8>>::one();
+
+    EXPECT_EQ(std::exp2(8),test.value);
+}
+
+TEST(fixedNumberFunctions, pi) {/* NOLINT */
+    fp::fixed<8,8> test = fp::fixed_traits<fp::fixed<8,8>>::pi();
+    fp::fixed<32,32> test2 = fp::fixed_traits<fp::fixed<32,32>>::pi();
+
+    EXPECT_EQ(804,test.value);
+    EXPECT_EQ(13493037704,test2.value);
+}
+
 /*
   _____                                _     _
  | ____| __  __   ___    ___   _ __   | |_  (_)   ___    _ __    ___
