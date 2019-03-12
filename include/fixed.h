@@ -79,7 +79,7 @@ namespace fp {
          * constructors
          */
 
-        fixed() = default;
+        fixed();
 
         constexpr explicit fixed(float x) : value(
                 (x / std::exp2(Int) < 1 ? static_cast<underlying_type>(floor(x * std::exp2(Frac)))
@@ -354,6 +354,8 @@ namespace fp {
 
     };
 
+    template<std::size_t I, std::size_t F>
+    fixed<I,F>::fixed() = default;
 
 
     /**
@@ -457,8 +459,9 @@ namespace fp {
         }
 
         static constexpr Fixed zero() {
-            fp::fixed<Fixed::integer_part,Fixed::fractionnal_part> ret(0.);
-            //ret.value = 0;
+            //fp::fixed<Fixed::integer_part,Fixed::fractionnal_part> ret(0.);
+            fp::fixed<Fixed::integer_part,Fixed::fractionnal_part> ret;
+            ret.value = 0;
             return Fixed{ret};
         }
 

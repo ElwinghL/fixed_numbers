@@ -11,51 +11,51 @@
   \____|  \___/  |_| |_| |___/  \__| |_|     \__,_|  \___|  \__|  \___/  |_|    |___/
 
  */
-TEST(fixedNumberCreation, fromFloat) {
+TEST(fixedNumberCreation, fromFloat) {/* NOLINT */
     fp::fixed<8, 8> test(static_cast<float>(1.0));
     EXPECT_EQ(256, test.value);
 }
 
-TEST(fixedNumberCreation, fromFloat2) {
+TEST(fixedNumberCreation, fromFloat2) {/* NOLINT */
     fp::fixed<16, 16> test(static_cast<float>(1.0));
     EXPECT_EQ(65536, test.value);
 }
 
 
-TEST(fixedNumberCreation, fromDouble) {
+TEST(fixedNumberCreation, fromDouble) {/* NOLINT */
     fp::fixed<8, 8> test(static_cast<double>(1.0));
     EXPECT_EQ(256, test.value);
 }
 
-TEST(fixedNumberCreation, fromDouble2) {
+TEST(fixedNumberCreation, fromDouble2) {/* NOLINT */
     fp::fixed<16, 16> test(static_cast<double>(1.0));
     EXPECT_EQ(65536, test.value);
 }
 
-TEST(fixedNumberCreation, fromCopy) {
+TEST(fixedNumberCreation, fromCopy) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_8_8 testCopied(test);
     EXPECT_EQ(256, testCopied.value);
 }
-TEST(fixedNumberCreation, fromCopy2) {
+TEST(fixedNumberCreation, fromCopy2) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::fixed<16,16> testCopied(test);
     EXPECT_EQ(65536, testCopied.value);
 }
 
-TEST(fixedNumberCreation, fromSmallerCopy) {
+TEST(fixedNumberCreation, fromSmallerCopy) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 testCopied(test);
     EXPECT_EQ(65536, testCopied.value);
 }
 
-TEST(fixedNumberCreation, constructCopy) {
+TEST(fixedNumberCreation, constructCopy) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_8_8 testCopied = test;
     EXPECT_EQ(256, testCopied.value);
 }
 
-TEST(fixedNumberCreation, constructSmallerCopy) {
+TEST(fixedNumberCreation, constructSmallerCopy) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 testCopied = test;
     EXPECT_EQ(65536, testCopied.value);
@@ -74,21 +74,21 @@ TEST(fixedNumberCreation, constructSmallerCopy) {
   \___/  | .__/   \___| |_|     \__,_|  \__|  \___/  |_|    |___/
          |_|
  */
-TEST(fixedNumberOperations, plusFromFloat) {
+TEST(fixedNumberOperations, plusFromFloat) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     test += static_cast<float>(1.0);
 
     EXPECT_EQ(512, test.value);
 }
 
-TEST(fixedNumberOperations, plusFromDouble) {
+TEST(fixedNumberOperations, plusFromDouble) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     test += static_cast<double>(1.0);
 
     EXPECT_EQ(512, test.value);
 }
 
-TEST(fixedNumberOperations, plusFromOne) {
+TEST(fixedNumberOperations, plusFromOne) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_8_8 test2(1.0);
 
@@ -96,7 +96,7 @@ TEST(fixedNumberOperations, plusFromOne) {
     EXPECT_EQ(512, test.value);
 }
 
-TEST(fixedNumberOperations, plusFromSmallerOne) {
+TEST(fixedNumberOperations, plusFromSmallerOne) {/* NOLINT */
     fp::Q_16_16 test(1.0);
     fp::Q_8_8 test2(1.0);
 
@@ -104,21 +104,28 @@ TEST(fixedNumberOperations, plusFromSmallerOne) {
     EXPECT_EQ(131072, test.value);
 }
 
-TEST(fixedNumberOperations, minusFromFloat) {
+TEST(fixedNumberOperations, plusFromNegative) {/* NOLINT */
+    fp::Q_8_8 test(2.0);
+    test+=-1.0;
+
+    EXPECT_EQ(256,test.value);
+}
+
+TEST(fixedNumberOperations, minusFromFloat) {/* NOLINT */
     fp::Q_8_8 test(2.0);
     test -= static_cast<float>(1.0);
 
     EXPECT_EQ(256, test.value);
 }
 
-TEST(fixedNumberOperations, minusFromDouble) {
+TEST(fixedNumberOperations, minusFromDouble) {/* NOLINT */
     fp::Q_8_8 test(2.0);
     test -= static_cast<double>(1.0);
 
     EXPECT_EQ(256, test.value);
 }
 
-TEST(fixedNumberOperations, minusFromOne) {
+TEST(fixedNumberOperations, minusFromOne) {/* NOLINT */
     fp::Q_8_8 test(2.0);
     fp::Q_8_8 test2(1.0);
 
@@ -126,7 +133,7 @@ TEST(fixedNumberOperations, minusFromOne) {
     EXPECT_EQ(256, test.value);
 }
 
-TEST(fixedNumberOperations, minusFromSmallerOne) {
+TEST(fixedNumberOperations, minusFromSmallerOne) {/* NOLINT */
     fp::Q_16_16 test(2.0);
     fp::Q_8_8 test2(1.0);
 
@@ -134,22 +141,29 @@ TEST(fixedNumberOperations, minusFromSmallerOne) {
     EXPECT_EQ(65536, test.value);
 }
 
+TEST(fixedNumberOperations, minusFromNegative) {/* NOLINT */
+    fp::Q_8_8 test(1.0);
+    test-=-1.0;
 
-TEST(fixedNumberOperations, timeFromFloat) {
+    EXPECT_EQ(512,test.value);
+}
+
+
+TEST(fixedNumberOperations, timeFromFloat) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     test *= static_cast<float>(2.0);
 
     EXPECT_EQ(512, test.value);
 }
 
-TEST(fixedNumberOperations, timeFromDouble) {
+TEST(fixedNumberOperations, timeFromDouble) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     test *= static_cast<double>(2.0);
 
     EXPECT_EQ(512, test.value);
 }
 
-TEST(fixedNumberOperations, timeForOne) {
+TEST(fixedNumberOperations, timeForOne) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_8_8 test2(2.0);
 
@@ -158,7 +172,7 @@ TEST(fixedNumberOperations, timeForOne) {
     EXPECT_EQ(512, test.value);
 }
 
-TEST(fixedNumberOperations, timefromSmallerOne) {
+TEST(fixedNumberOperations, timefromSmallerOne) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
 
@@ -167,21 +181,28 @@ TEST(fixedNumberOperations, timefromSmallerOne) {
     EXPECT_EQ(131072, test2.value);
 }
 
-TEST(fixedNumberOperations, divFromFloat) {
+TEST(fixedNumberOperations, timeFromNegative) {/*NOLINT*/
+    fp::Q_8_8 test(1.0);
+
+    test *= -2.0;
+    EXPECT_EQ(-512,test.value);
+}
+
+TEST(fixedNumberOperations, divFromFloat) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     test /= static_cast<float>(2.0);
 
     EXPECT_EQ(128, test.value);
 }
 
-TEST(fixedNumberOperations, divFromDouble) {
+TEST(fixedNumberOperations, divFromDouble) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     test /= static_cast<double>(2.0);
 
     EXPECT_EQ(128, test.value);
 }
 
-TEST(fixedNumberOperations, divFromOne) {
+TEST(fixedNumberOperations, divFromOne) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_8_8 test2(0.5);
     test /= test2;
@@ -189,7 +210,7 @@ TEST(fixedNumberOperations, divFromOne) {
     EXPECT_EQ(512, test.value);
 }
 
-TEST(fixedNumberOperations, divFromSmallerOne) {
+TEST(fixedNumberOperations, divFromSmallerOne) {/* NOLINT */
     fp::Q_16_16 test(1.0);
     fp::Q_8_8 test2(0.5);
     test /= test2;
@@ -210,7 +231,7 @@ TEST(fixedNumberOperations, divFromSmallerOne) {
   \___/  | .__/   \___| |_|     \__,_|  \__|  \___/  |_|    |___/
          |_|
  */
-TEST(fixedNumberComparaison, equal) {
+TEST(fixedNumberComparaison, equal) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(1.0);
     fp::Q_8_8 test3(1.0001);
@@ -218,7 +239,7 @@ TEST(fixedNumberComparaison, equal) {
     EXPECT_TRUE(test == test2);
     EXPECT_TRUE(test == test3);
 }
-TEST(fixedNumberComparaison, negEqual) {
+TEST(fixedNumberComparaison, negEqual) {/* NOLINT */
     fp::Q_8_8 test(-1.0);
     fp::Q_16_16 test2(-1.0);
     fp::Q_8_8 test3(-1.000001);
@@ -226,7 +247,7 @@ TEST(fixedNumberComparaison, negEqual) {
     EXPECT_TRUE(test == test2);
     EXPECT_FALSE(test == test3);
 }
-TEST(fixedNumberComparaison, inEqual) {
+TEST(fixedNumberComparaison, inEqual) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
 	fp::Q_8_8 test3(1.00);
@@ -237,7 +258,7 @@ TEST(fixedNumberComparaison, inEqual) {
     EXPECT_TRUE(test3 != test4);
 }
 
-TEST(fixedNumberComparaison, negInEqual) {
+TEST(fixedNumberComparaison, negInEqual) {/* NOLINT */
     fp::Q_8_8 test(-1.0);
     fp::Q_16_16 test2(-2.0);
 	fp::Q_8_8 test3(-1.01);
@@ -247,56 +268,56 @@ TEST(fixedNumberComparaison, negInEqual) {
     EXPECT_TRUE(test != test2);
     EXPECT_TRUE(test3 != test4);
 }
-TEST(fixedNumberComparaison, inferior) {
+TEST(fixedNumberComparaison, inferior) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
 
     EXPECT_TRUE(test < test2);
     EXPECT_FALSE(test < test);
 }
-TEST(fixedNumberComparaison, negInferior) {
+TEST(fixedNumberComparaison, negInferior) {/* NOLINT */
     fp::Q_8_8 test(-2.0);
     fp::Q_16_16 test2(-1.0);
 
     EXPECT_TRUE(test < test2);
     EXPECT_FALSE(test < test);
 }
-TEST(fixedNumberComparaison, superior) {
+TEST(fixedNumberComparaison, superior) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
 
     EXPECT_TRUE(test2 > test);
     EXPECT_FALSE(test > test);
 }
-TEST(fixedNumberComparaison, negSuperior) {
+TEST(fixedNumberComparaison, negSuperior) {/* NOLINT */
     fp::Q_8_8 test(-2.0);
     fp::Q_16_16 test2(-1.0);
 
     EXPECT_TRUE(test2 > test);
     EXPECT_FALSE(test > test);
 }
-TEST(fixedNumberComparaison, inferiorEqual) {
+TEST(fixedNumberComparaison, inferiorEqual) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
 
     EXPECT_TRUE(test <= test2);
     EXPECT_TRUE(test <= test);
 }
-TEST(fixedNumberComparaison, negInferiorEqual) {
+TEST(fixedNumberComparaison, negInferiorEqual) {/* NOLINT */
     fp::Q_8_8 test(-2.0);
     fp::Q_16_16 test2(-1.0);
 
     EXPECT_TRUE(test <= test2);
     EXPECT_TRUE(test <= test);
 }
-TEST(fixedNumberComparaison, superiorEqual) {
+TEST(fixedNumberComparaison, superiorEqual) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_16_16 test2(2.0);
 
     EXPECT_TRUE(test2 >= test);
     EXPECT_TRUE(test >= test);
 }
-TEST(fixedNumberComparaison, negSuperiorEqual) {
+TEST(fixedNumberComparaison, negSuperiorEqual) {/* NOLINT */
     fp::Q_8_8 test(-2.0);
     fp::Q_16_16 test2(-1.0);
 
@@ -312,14 +333,14 @@ TEST(fixedNumberComparaison, negSuperiorEqual) {
 
  */
 
-TEST(fixedNumberFunctions, sqrt) {
+TEST(fixedNumberFunctions, sqrt) {/* NOLINT */
     fp::Q_8_8 test(4.0);
     fp::Q_8_8 test2(sqrt(test));
 
     EXPECT_EQ(512,test2.value);
 }
 
-TEST(fixedNumberFunctions, sqrt2) {
+TEST(fixedNumberFunctions, sqrt2) {/* NOLINT */
     fp::Q_8_8 test(4.0);
     fp::Q_16_16 test2(sqrt(test));
 
@@ -335,24 +356,24 @@ TEST(fixedNumberFunctions, sqrt2) {
                               |_|
  */
 
-TEST(fixedNumberExceptions, constrOverflow) {
-    EXPECT_THROW(({fp::fixed<0, 1> test(1.0);}),std::overflow_error);
+TEST(fixedNumberExceptions, constrOverflow) {/* NOLINT */
+    EXPECT_THROW(({/* NOLINT */fp::fixed<0, 1> test(1.0);}),std::overflow_error);
 
 }
-TEST(fixedNumberExceptions, copyOverflow) {
+TEST(fixedNumberExceptions, copyOverflow) {/* NOLINT */
     fp::fixed<1, 1> test(1.0);
-    EXPECT_THROW(({fp::fixed<0, 1> test1(test);}),std::overflow_error);
+    EXPECT_THROW(({/* NOLINT */fp::fixed<0, 1> test1(test);}),std::overflow_error);
 
 }
-TEST(fixedNumberExceptions, div0) {
+TEST(fixedNumberExceptions, div0) {/* NOLINT */
     fp::Q_8_8 test(1.0);
     fp::Q_8_8 test2(0.0);
-    EXPECT_THROW(({test/=test2;}), std::overflow_error);
+    EXPECT_THROW(({/* NOLINT */test/=test2;}), std::overflow_error);
 }
 
-TEST(fixedNumberExceptions, sqrt) {
+TEST(fixedNumberExceptions, sqrt) {/* NOLINT */
     fp::Q_8_8 test(-4.0);
-    EXPECT_THROW(({fp::fixed<16, 16> test2(sqrt(test));}), std::overflow_error);
+    EXPECT_THROW(({/* NOLINT */fp::fixed<16, 16> test2(sqrt(test));}), std::overflow_error);
 }
 
 int main(int argc, char **argv) {
